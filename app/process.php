@@ -10,12 +10,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 if (isset($_GET["list"])) {
-    echo json_encode(array_values(array_diff(scandir("uploads"), [".", ".."])));
+    echo json_encode(array_values(array_diff(scandir("uploads"), [".", "..", ".gitignore"])));
     exit;
 }
 
 if (isset($_GET["generate"])) {
-    $images = array_values(array_diff(scandir("uploads"), [".", ".."]));
+    $images = array_values(array_diff(scandir("uploads"), [".", "..", ".gitignore"]));
     if (empty($images)) exit("Нет изображений");
 
     $pdf = new Imagick();
@@ -29,7 +29,7 @@ if (isset($_GET["generate"])) {
         $height = $page->getImageHeight();
         $canvas = new Imagick();
         $canvas->newImage($width + 28, $height + 28, "white");
-        
+
         $isEven = ($index + 1) % 2 === 0;
         $xOffset = $isEven ? 28 : 0;
 
@@ -42,4 +42,3 @@ if (isset($_GET["generate"])) {
     $pdf->destroy();
     exit;
 }
-?>
