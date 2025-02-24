@@ -21,6 +21,10 @@ if (isset($_GET["generate"])) {
     $pdf = new Imagick();
     $pdf->setResolution(300, 300);
 
+    $cm = 28;
+
+    $gap = $cm * 3;
+
     foreach ($images as $index => $img) {
         $page = new Imagick("uploads/" . $img);
         $page->setImageFormat("pdf");
@@ -28,12 +32,12 @@ if (isset($_GET["generate"])) {
         $width = $page->getImageWidth();
         $height = $page->getImageHeight();
         $canvas = new Imagick();
-        $canvas->newImage($width + 28, $height + 28, "white");
+        $canvas->newImage($width + $gap, $height + $gap, "white");
 
         $isEven = ($index + 1) % 2 === 0;
-        $xOffset = $isEven ? 28 : 0;
+        $xOffset = $isEven ? 0 : $gap; // Меняем местами смещение
 
-        $canvas->compositeImage($page, Imagick::COMPOSITE_OVER, $xOffset, 14);
+        $canvas->compositeImage($page, Imagick::COMPOSITE_OVER, $xOffset, 28);
         $pdf->addImage($canvas);
     }
 
