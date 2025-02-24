@@ -13,7 +13,7 @@ RUN mkdir -p /etc/ImageMagick-6/ && echo '<?xml version="1.0" encoding="UTF-8"?>
 COPY php.ini /usr/local/etc/php/php.ini
 
 # Устанавливаем права на папку с загрузками
-RUN mkdir -p /var/www/html/uploads && chmod -R 777 /var/www/html/uploads
+# RUN mkdir -p /var/www/html/uploads && chmod -R 777 /var/www/html/uploads
 
 WORKDIR /var/www/html
 CMD ["php-fpm"]
