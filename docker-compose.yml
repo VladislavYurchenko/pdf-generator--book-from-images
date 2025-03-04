@@ -5,16 +5,14 @@ services:
     build: ./docker
     container_name: pdf-generator-php
     volumes:
-      - ./app:/var/www/html
-      - ./uploads:/var/www/html/uploads
+      - ./:/var/www/html
     restart: unless-stopped
 
   nginx:
     image: nginx:latest
     container_name: pdf-generator-nginx
     volumes:
-      - ./app:/var/www/html
-      - ./uploads:/var/www/html/uploads
+      - ./:/var/www/html
       - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "8080:80"

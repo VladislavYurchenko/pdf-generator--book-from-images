@@ -8,38 +8,69 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             text-align: center;
-            margin: 30px;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fff;
+            display: inline-block;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
         }
 
         #preview {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            margin-top: 20px;
         }
 
         .thumb {
             margin: 5px;
             border: 1px solid #ddd;
             padding: 5px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
 
         .thumb img {
             max-width: 150px;
             height: auto;
-        }
-
-        button,
-        input[type="file"] {
-            margin: 10px;
-            padding: 10px;
-            cursor: pointer;
+            border-radius: 4px;
         }
     </style>
 </head>
 
 <body>
-    <h1>Генератор PDF с отступами</h1>
+    <?php include 'navigation.php'; ?>
+    <h1>Генератор PDF</h1>
 
     <input type="file" id="fileInput" multiple accept="image/*">
     <button onclick="uploadFiles()">Загрузить</button>
@@ -69,7 +100,7 @@
 
         function generatePDF() {
             fetch("process.php?generate=1")
-                .then(() => window.open("output.pdf", "_blank"));
+                .then(() => window.open("/storage/output.pdf", "_blank"));
         }
 
         function clearUploads() {
@@ -85,7 +116,7 @@
                     preview.innerHTML = "";
                     files.forEach(file => {
                         let img = document.createElement("img");
-                        img.src = "uploads/" + file;
+                        img.src = "/storage/output/" + file;
                         let div = document.createElement("div");
                         div.className = "thumb";
                         div.appendChild(img);

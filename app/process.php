@@ -1,21 +1,21 @@
 <?php
-if (!file_exists("uploads")) mkdir("uploads");
-
+// if (!file_exists("output")) mkdir("output");
+$root = '/var/www/html/storage';
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     foreach ($_FILES["images"]["tmp_name"] as $key => $tmp_name) {
         $name = basename($_FILES["images"]["name"][$key]);
-        move_uploaded_file($tmp_name, "uploads/" . $name);
+        move_uploaded_file($tmp_name, "$root/output/" . $name);
     }
     exit;
 }
 
 if (isset($_GET["list"])) {
-    echo json_encode(array_values(array_diff(scandir("uploads"), [".", "..", ".gitignore"])));
+    echo json_encode(array_values(array_diff(scandir("$root/output"), [".", "..", ".gitignore"])));
     exit;
 }
 
 if (isset($_GET["generate"])) {
-    $images = array_values(array_diff(scandir("uploads"), [".", "..", ".gitignore"]));
+    $images = array_values(array_diff(scandir("$root/output"), [".", "..", ".gitignore"]));
     if (empty($images)) exit("Нет изображений");
 
     $pdf = new Imagick();
@@ -26,7 +26,7 @@ if (isset($_GET["generate"])) {
     $gap = $cm * 3;
 
     foreach ($images as $index => $img) {
-        $page = new Imagick("uploads/" . $img);
+        $page = new Imagick("$root/output/" . $img);
         $page->setImageFormat("pdf");
 
         $width = $page->getImageWidth();
@@ -41,7 +41,7 @@ if (isset($_GET["generate"])) {
         $pdf->addImage($canvas);
     }
 
-    $pdf->writeImages("output.pdf", true);
+    $pdf->writeImages("$root/output.pdf", true);
     $pdf->clear();
     $pdf->destroy();
     exit;

@@ -1,3 +1,5 @@
 <?php
-foreach (glob("uploads/*") as $file) unlink($file);
+$root = '/var/www/html/storage';
+
+foreach (glob("$root/output/*") as $file) unlink($file);
 ?>

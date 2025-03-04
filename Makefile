@@ -2,6 +2,7 @@
 
 # Сборка и запуск контейнеров
 build:
+	make down
 	docker-compose up -d --build
 
 # Запуск уже собранных контейнеров
@@ -27,3 +28,6 @@ ps:
 # Очистка всех данных (осторожно!)
 clean:
 	docker-compose down -v --rmi all --remove-orphans
+bash:
+	docker exec -it pdf-generator-php bash
+
